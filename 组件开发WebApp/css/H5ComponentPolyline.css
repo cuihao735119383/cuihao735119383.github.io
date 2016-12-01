@@ -1,0 +1,24 @@
+/* 折线图组件样式 */
+.h5_component_polyline {}
+.h5_component_polyline canvas{
+    position: absolute;
+    left: 0;
+    top: 0; /* 用canvas做动画，会进行分层，要用到  z-index */
+    width: 100%;
+    height: 100%;
+}
+.h5_component_polyline .per,.h5_component_polyline .name{
+    position: absolute;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    opacity: 0;
+}
+
+.h5_component_polyline_load .per,.h5_component_polyline_load .name{
+    -webkit-transition: opacity .5s 1.5s;
+    opacity: 1;
+}
+.h5_component_polyline_leave .per,.h5_component_polyline_leave .name{
+    opacity: 0;
+}
