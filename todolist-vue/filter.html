@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			/*
+				filter 过滤
+				数组中的一个新方法。
+			*/
+			var arr = [1,2,3,4,5];
+			var todo = 3;
+
+			var newArr = arr.filter(function (item,index){//返回一个新数组
+				console.log( item );
+				return item !== 3;//指令
+			});
+
+			console.log( newArr );
+			
+			var arr = [1,2,1,2];
+			var num = 1;
+			var newArr = arr.filter(function(item,index){
+				return item == 1;
+			});
+			console.log(newArr);
+		</script>
+	</head>
+
+	<body>
+		
+	</body>
+</html>

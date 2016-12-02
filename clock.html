@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>clock</title>
+	<style>
+		canvas {
+			display: block;
+			margin: 40px auto;
+			/*border: 2px solid #FC3430;*/
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="533" height="533"></canvas>
+	<script>
+		(function (d){
+			//-----------------------------------
+			// 用来初始化一些变量和方法
+			var canvas = d.getElementById('canvas'),
+				cxt = canvas.getContext('2d');
+
+			var W = cxt.canvas.width,H = cxt.canvas.height;
+
+			//console.log(W,H);
+			var r = W/2;
+
+			var remW = W/400,remH = H/400;
+
+			//-----------------------------------
+			// 初始化主要逻辑
+			
+
+			setInterval(time, 50);
+
+
+
+			//-----------------------------------
+			// 需求函数化
+
+			// 需求1：绘制最外层的圆
+			function drawCir(cxt){
+				cxt.save();
+				cxt.translate(r,r);
+				cxt.beginPath();
+				cxt.lineWidth = 10*remW;
+				cxt.arc(0,0,r - 5*remW,0,2*Math.PI);
+				cxt.stroke();
+				cxt.restore();
+			}
+			// 需求2：绘制数字
+			function drawNum(cxt) {
+				var arr = [3,4,5,6,7,8,9,10,11,12,1,2];
+				cxt.save()
+				cxt.translate(r,r);
+				cxt.beginPath();
+				cxt.font = `${18*remW}px Arial`;
+				cxt.textAlign = 'center'; //水平对齐方式
+				cxt.textBaseline = 'middle'; //垂直对齐方式
+				arr.forEach((item,i)=>{ // ()=>{}  function(){}
+					var rad = 2*Math.PI/12 * i;
+					var x = Math.cos(rad) * (r - 32*remW),
+						y = Math.sin(rad) * (r - 32*remW);
+					cxt.fillText(item,x,y)  //绘制文字 最后一个是可选参数，用来设定文字的最大宽度
+				});
+				cxt.restore();
+			}
+
+			// 需求3 绘制刻度
+			function drawPoint(cxt) {
+				cxt.save();
+				cxt.translate(r,r);
+				for(var i=0; i<60; i++){
+					var rad = 2*Math.PI / 60 * i;
+					var x = Math.cos(rad) * (r - 18*remW);
+					var y = Math.sin(rad) * (r - 18*remW);
+					cxt.beginPath();
+					if(i%5 == 0){
+						cxt.fillStyle = '#000';
+					}else{
+						cxt.fillStyle = '#ccc';
+					}
+					cxt.arc(x,y,2*remW,0,2*Math.PI);
+					cxt.fill();
+				}
+				cxt.restore();
+			}
+			// 需求4：绘制时针
+			function drawHour(cxt,hour) {
+				var rad = 2*Math.PI / 12 * hour;
+				cxt.save();
+				cxt.translate(r,r);
+				cxt.rotate(rad);  //旋转 接受的是一个弧度
+				cxt.beginPath();
+				cxt.lineTo(0, 10*remW);
+				cxt.lineTo(0, -r*3/5);
+
+				cxt.lineWidth = 6*remW;
+				cxt.lineCap = 'round';
+
+				cxt.stroke();
+				cxt.restore();
+			}
+			//drawHour(cxt,1);
+			// 需求5：绘制分针
+			function drawMin(cxt,min) {
+				var rad = 2*Math.PI / 60 * min;
+				cxt.save();
+				cxt.translate(r,r);
+				cxt.rotate(rad);  //旋转 接受的是一个弧度
+				cxt.beginPath();
+				cxt.lineTo(0, 10*remW);
+				cxt.lineTo(0, -r*4/5);
+
+				cxt.lineWidth = 4*remW;
+				cxt.lineCap = 'round';
+				cxt.strokeStyle = '#424DFC';
+
+				cxt.stroke();
+				cxt.restore();
+			}
+
+			//drawMin(cxt,5)
+			// 需求6：绘制秒针
+			function drawSec(cxt,sec) {
+				var rad = 2*Math.PI / 60 * sec;
+				cxt.save();
+				cxt.translate(r,r);
+				cxt.rotate(rad);  //旋转 接受的是一个弧度
+				cxt.beginPath();
+				cxt.lineTo(-3*remW, 20*remW);
+				cxt.lineTo(3*remW, 20*remW);
+				cxt.lineTo(1*remW, -(r - 20*remW));
+				cxt.lineTo(-1*remW, -(r - 20*remW));
+				cxt.lineWidth = 3*remW;
+				cxt.lineCap = 'round';
+				cxt.fillStyle = '#f00';
+
+				cxt.closePath();
+
+				cxt.fill();
+
+				cxt.restore();
+			}
+
+			//drawSec(cxt,0)
+			// 需求7:绘制小圆点
+			function drawCenter(cxt) {
+				cxt.save();
+				cxt.translate(r,r);
+				cxt.beginPath();
+				cxt.fillStyle = '#aaa';
+				cxt.arc(0,0,4*remW,0,2*Math.PI);
+				cxt.fill();
+				cxt.restore();
+			}
+			// 需求8：让时间动起来
+			function time() {
+				var now = new Date();
+				var s = now.getSeconds();
+				var m = now.getMinutes() + s/60;
+				var h = now.getHours() + m/60;
+				cxt.clearRect(0,0,cxt.canvas.width,cxt.canvas.height);
+				drawCir(cxt);
+				drawNum(cxt);
+				drawPoint(cxt);
+				drawHour(cxt,h);
+				drawMin(cxt,m);
+				drawSec(cxt,s);
+				drawCenter(cxt);
+			}
+		})(document)
+	</script>
+</body>
+</html>

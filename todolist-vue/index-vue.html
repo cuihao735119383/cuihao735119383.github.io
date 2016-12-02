@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todos</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <section class="todoapp" id="app">
+        <div>
+            <header class="header" >
+                <h1>todos</h1>
+                <input 
+                    class="new-todo" 
+                    placeholder="请输入内容"
+                    @keyup.enter="addItem"
+                />
+            </header>
+            <section class="main" v-show="list.length">
+                <input class="toggle-all" type="checkbox" v-model="allDone" />
+                <ul class="todo-list">
+                    <li :class="{completed:item.isChecked,editing:editingItem === item}" v-for="(item,index) in filteredList" >
+                        <div class="view">
+                            <input class="toggle" type="checkbox" v-model="item.isChecked">
+                            <label @dblclick="edtorItem(item)">{{item.title}}</label>
+                            <button 
+                                class="destroy"
+                                @click="destroyItem(item)"
+                            ></button>
+                        </div>
+                        <input 
+                            class="edit" 
+                            v-model="item.title"
+                            v-focus="editingItem"
+                            @blur="edtorOk"
+                            @keyup.enter="edtorOk"
+                            @keyup.esc="cancelEdtor(item)"
+                        />
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer" v-show="list.length">
+	            <span class="todo-count">
+	            	<strong>{{unCheckedLength}}</strong>
+	            	<span>条未选中</span>
+	            </span>
+                <ul class="filters">
+                    <li><a href="#all" :class="{selected:hash === 'all'}">All</a></li>
+                    <li><a href="#active" :class="{selected:hash === 'active'}">Active</a></li>
+                    <li><a href="#completed" :class="{selected:hash === 'completed'}">Completed</a></li>
+                </ul>
+                <button v-show="checkedLength" @click="destroySelectedAll" class="clear-completed">
+                    Clear completed
+                </button>
+            </footer>
+        </div>
+    </section>
+    <script src="./app.js"></script>
+</body>
+
+</html>
