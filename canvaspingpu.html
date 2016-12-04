@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>canvas音乐频谱动画</title>
+    <style>
+    	span{
+    		font-size: 12px;
+    	}
+    </style>
 </head>
 <body>
 <canvas width="700" height="400" id="cas" style="background:#FEB">
     您的浏览器不支持canvas，请升级浏览器或者换一个。
 </canvas>
+<span>请上传音乐文件</span>
 <input type="file" id="f" />
 <script type="text/javascript">
      var file = document.getElementById('f');
