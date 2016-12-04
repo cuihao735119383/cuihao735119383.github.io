@@ -5,7 +5,7 @@ function HandWriting(obj) {
   this.canvasHeight = Math.min(500, $(window).height() * 0.7);
   this.c.width = this.canvasWidth;
   this.c.height = this.canvasHeight;
-  this.lineWidth;
+  this.lineWidth = 10;
   this.lineColor = 'black';
   this.lastLoc = {
       x: 0,
@@ -64,8 +64,6 @@ HandWriting.prototype.bindEvent = function() {
     e.preventDefault();
     $(c).off('mousemove');
   });
-
-
 }
 HandWriting.prototype.bindTouchEvent = function() {
   var c = this.c;
@@ -89,12 +87,6 @@ HandWriting.prototype.bindTouchEvent = function() {
     e.preventDefault();
     $(c).off('touchmove')
   });
-  // $(c).on('mouseout', function(e) {
-  //   e.preventDefault();
-  //   $(c).off('mousemove');
-  // });
-
-
 }
 
 HandWriting.prototype.distance = function(x, y, el) {
